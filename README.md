@@ -17,14 +17,14 @@ Je propose la même architecture, adaptée à vos outils, en mission courte ou e
 
 | Dépôt | Rôle | État honnête |
 |---|---|---|
-| [lyra](https://github.com/amineutron/lyra) | Assistant DevOps vocal local : Ollama, faster-whisper, Piper, RAG à 3 niveaux, démon multi-clients, installeur multi-distro | v1.1.0, AGPL-3.0, tests unitaires en CI |
-| [fedora-agents](https://github.com/amineutron/fedora-agents) | Serveur MCP pour KVM/libvirt et sauvegardes Borg/Timeshift (TypeScript), table de permissions par outil | v1.0.0, MIT, composant de Lyra |
-| [mcp-tracking](https://github.com/amineutron/mcp-tracking) | Serveur MCP, API HTTP et tableau de bord terminal pour suivre les tâches longues | v0.1.0, MIT |
-| [neutroncore](https://github.com/amineutron/neutroncore) | Hub PWA du homelab (services, tâches, médias, domotique), piloté par Lyra | v0.1.0, MIT, son backend n'est pas encore publié |
-| [hue-mcp](https://github.com/amineutron/hue-mcp) | Fork de [ThomasRohde/hue-mcp](https://github.com/ThomasRohde/hue-mcp) avec scènes par nom et synchronisation au rythme | MIT, fork crédité |
-| [pylips-mcp](https://github.com/amineutron/pylips-mcp) | Serveur MCP pour TV Philips (JointSpace, ADB), certificat de la TV épinglé | v0.1.0, MIT |
-| [denon-mcp](https://github.com/amineutron/denon-mcp) | Serveur MCP pour ampli home cinéma Denon (protocole telnet local) | v0.1.0, MIT |
-| [catt-mcp](https://github.com/amineutron/catt-mcp) | Serveur MCP pour diffuser sur Chromecast et DLNA | v0.1.0, MIT |
+| [lyra](https://github.com/amineutron/lyra) | Assistant DevOps vocal local : Ollama, faster-whisper, Piper, RAG à 3 niveaux, démon multi-clients, installeur multi-distro | v1.2 en cours, AGPL-3.0, [![Tests](https://github.com/amineutron/lyra/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/lyra/actions/workflows/tests.yml) |
+| [fedora-agents](https://github.com/amineutron/fedora-agents) | Serveur MCP pour KVM/libvirt et sauvegardes Borg/Timeshift (TypeScript), table de permissions par outil | v1.0.0, MIT, composant de Lyra [![CI](https://github.com/amineutron/fedora-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/amineutron/fedora-agents/actions/workflows/ci.yml) |
+| [mcp-tracking](https://github.com/amineutron/mcp-tracking) | Serveur MCP, API HTTP et tableau de bord terminal pour suivre les tâches longues | v0.1.0, MIT [![CI](https://github.com/amineutron/mcp-tracking/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/mcp-tracking/actions/workflows/tests.yml) |
+| [neutroncore](https://github.com/amineutron/neutroncore) | Hub PWA du homelab (services, tâches, médias, domotique), piloté par Lyra | v0.1.0, MIT, son backend n'est pas encore publié [![CI](https://github.com/amineutron/neutroncore/actions/workflows/ci.yml/badge.svg)](https://github.com/amineutron/neutroncore/actions/workflows/ci.yml) |
+| [hue-mcp](https://github.com/amineutron/hue-mcp) | Fork de [ThomasRohde/hue-mcp](https://github.com/ThomasRohde/hue-mcp) avec scènes par nom et synchronisation au rythme | MIT, fork crédité [![CI](https://github.com/amineutron/hue-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/hue-mcp/actions/workflows/tests.yml) |
+| [pylips-mcp](https://github.com/amineutron/pylips-mcp) | Serveur MCP pour TV Philips (JointSpace, ADB), certificat de la TV épinglé | v0.1.0, MIT [![CI](https://github.com/amineutron/pylips-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/pylips-mcp/actions/workflows/tests.yml) |
+| [denon-mcp](https://github.com/amineutron/denon-mcp) | Serveur MCP pour ampli home cinéma Denon (protocole telnet local) | v0.1.0, MIT [![CI](https://github.com/amineutron/denon-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/denon-mcp/actions/workflows/tests.yml) |
+| [catt-mcp](https://github.com/amineutron/catt-mcp) | Serveur MCP pour diffuser sur Chromecast et DLNA | v0.1.0, MIT [![CI](https://github.com/amineutron/catt-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/catt-mcp/actions/workflows/tests.yml) |
 
 Les serveurs domotiques sont taillés pour mon homelab ; ils servent de banc d'essai à l'architecture, pas de produit.
 
@@ -34,6 +34,16 @@ Les serveurs domotiques sont taillés pour mon homelab ; ils servent de banc d'e
 - Validation par liste blanche de tout argument transmis à un script shell : [`lyra/core/validation.py`](https://github.com/amineutron/lyra/blob/main/lyra/core/validation.py)
 - Scripts privilégiés copiés en root et autorisés un par un dans `sudoers.d` : [`installer/core/steps/mcps.py`](https://github.com/amineutron/lyra/blob/main/installer/core/steps/mcps.py)
 - Chaque outil MCP de fedora-agents déclare s'il est dangereux et s'il exige sudo, et le serveur refuse de démarrer si un outil n'est pas déclaré : [`src/config.ts`](https://github.com/amineutron/fedora-agents/blob/main/src/config.ts)
+
+## Comment vérifier, en trois commandes
+
+```bash
+git clone https://github.com/amineutron/lyra && cd lyra && uv sync --extra dev && uv run pytest tests/unit -q   # les tests
+grep -rn "https\?://" lyra modules | grep -v "127.0.0.1\|localhost"                                          # aucune sortie cloud
+cat docs/DATA_FLOWS.md                                                                                       # ce qui est capté, gardé, et ce qui sort
+```
+
+Les garde-fous sont décrits dans le README de Lyra avec, pour chaque garantie, le fichier et le test qui la prouvent.
 
 ## Stack
 
