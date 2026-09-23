@@ -13,12 +13,20 @@ Beaucoup d'organisations veulent un assistant IA mais ne peuvent pas envoyer leu
 J'ai construit [Lyra](https://github.com/amineutron/lyra), un assistant DevOps vocal qui tourne entièrement sur une machine locale et pilote des machines virtuelles, des sauvegardes et des équipements, avec confirmation humaine avant chaque action sensible : le code, les tests et l'installeur sont publics.
 Je propose la même architecture, adaptée à vos outils, en mission courte ou en régie (voir en bas de page).
 
+## Une mesure plutôt qu'une promesse
+
+Le modèle qui choisit l'outil dans Lyra fait 0,5 milliard de paramètres (800 Mo, 2 à 5 s par requête). Au départ il ne trouvait le bon outil pour aucune des 21 commandes que les règles ne couvraient pas. Vingt-et-une itérations d'une boucle mesurée (hypothèse écrite avant, mesure du mécanisme sans le modèle, jeux de test scellés avant de toucher au code) l'ont porté à 21/21, puis 100 % sur cinq jeux de développement ; sur un jeu scellé jamais itéré, il fait **42/50**. Le message n'est pas « 100 % » : c'est **70 à 85 % sur du langage jamais vu, avec un modèle de 800 Mo, en corrigeant ce qu'on lui montre et pas le modèle**.
+
+![Meilleure configuration par itération](https://raw.githubusercontent.com/amineutron/lyra/main/docs/articles/figures/progression.svg)
+
+Méthode, chiffres et limites : [l'article](https://github.com/amineutron/lyra/blob/main/docs/articles/2026-09-boucle-ephaistos.fr.md) ([English](https://github.com/amineutron/lyra/blob/main/docs/articles/2026-09-boucle-ephaistos.en.md)), tous les résultats bruts dans [`benchmarks/results/`](https://github.com/amineutron/lyra/tree/main/benchmarks/results).
+
 ## Ce que le code montre
 
 | Dépôt | Rôle | État honnête |
 |---|---|---|
-| [lyra](https://github.com/amineutron/lyra) | Assistant DevOps vocal local : Ollama, faster-whisper, Piper, RAG à 3 niveaux, démon multi-clients, installeur multi-distro | v1.2 en cours, AGPL-3.0, [![Tests](https://github.com/amineutron/lyra/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/lyra/actions/workflows/tests.yml) |
-| [fedora-agents](https://github.com/amineutron/fedora-agents) | Serveur MCP pour KVM/libvirt et sauvegardes Borg/Timeshift (TypeScript), table de permissions par outil | v1.0.0, MIT, composant de Lyra [![CI](https://github.com/amineutron/fedora-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/amineutron/fedora-agents/actions/workflows/ci.yml) |
+| [lyra](https://github.com/amineutron/lyra) | Assistant DevOps vocal local : Ollama, faster-whisper, Piper, RAG à 3 niveaux, démon multi-clients, installeur multi-distro | v1.3.0, AGPL-3.0, [![Tests](https://github.com/amineutron/lyra/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/lyra/actions/workflows/tests.yml) |
+| [fedora-agents](https://github.com/amineutron/fedora-agents) | Serveur MCP pour KVM/libvirt et sauvegardes Borg/Timeshift (TypeScript), table de permissions par outil | v1.2.0, MIT, composant de Lyra [![CI](https://github.com/amineutron/fedora-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/amineutron/fedora-agents/actions/workflows/ci.yml) |
 | [mcp-tracking](https://github.com/amineutron/mcp-tracking) | Serveur MCP, API HTTP et tableau de bord terminal pour suivre les tâches longues | v0.1.0, MIT [![CI](https://github.com/amineutron/mcp-tracking/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/mcp-tracking/actions/workflows/tests.yml) |
 | [neutroncore](https://github.com/amineutron/neutroncore) | Hub PWA du homelab (services, tâches, médias, domotique), piloté par Lyra | v0.1.0, MIT, son backend n'est pas encore publié [![CI](https://github.com/amineutron/neutroncore/actions/workflows/ci.yml/badge.svg)](https://github.com/amineutron/neutroncore/actions/workflows/ci.yml) |
 | [hue-mcp](https://github.com/amineutron/hue-mcp) | Fork de [ThomasRohde/hue-mcp](https://github.com/ThomasRohde/hue-mcp) avec scènes par nom et synchronisation au rythme | MIT, fork crédité [![CI](https://github.com/amineutron/hue-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/hue-mcp/actions/workflows/tests.yml) |
