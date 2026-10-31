@@ -21,18 +21,26 @@ Le modèle qui choisit l'outil dans Lyra fait 0,5 milliard de paramètres (800 M
 
 Méthode, chiffres et limites : [l'article](https://github.com/amineutron/lyra/blob/main/docs/articles/2026-09-boucle-ephaistos.fr.md) ([English](https://github.com/amineutron/lyra/blob/main/docs/articles/2026-09-boucle-ephaistos.en.md)), tous les résultats bruts dans [`benchmarks/results/`](https://github.com/amineutron/lyra/tree/main/benchmarks/results).
 
-## Ce que le code montre
+## Briques entreprise
 
 | Dépôt | Rôle | État honnête |
 |---|---|---|
-| [lyra](https://github.com/amineutron/lyra) | Assistant DevOps vocal local, *French-first* : le français familier est compris par des règles avant d'appeler un modèle de 0,5B. Ollama, faster-whisper, Piper, RAG à 3 niveaux, démon multi-clients, installeur multi-distro | v1.3.0, AGPL-3.0, [![Tests](https://github.com/amineutron/lyra/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/lyra/actions/workflows/tests.yml) |
-| [fedora-agents](https://github.com/amineutron/fedora-agents) | Serveur MCP pour KVM/libvirt et sauvegardes Borg/Timeshift (TypeScript), table de permissions par outil | v1.2.0, MIT, composant de Lyra [![CI](https://github.com/amineutron/fedora-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/amineutron/fedora-agents/actions/workflows/ci.yml) |
-| [mcp-tracking](https://github.com/amineutron/mcp-tracking) | Serveur MCP, API HTTP et tableau de bord terminal pour suivre les tâches longues | v0.1.0, MIT [![CI](https://github.com/amineutron/mcp-tracking/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/mcp-tracking/actions/workflows/tests.yml) |
+| [lyra](https://github.com/amineutron/lyra) | Assistant DevOps vocal local, *French-first* : le français familier est compris par des règles avant d'appeler un modèle de 0,5B. Ollama, faster-whisper, Piper, RAG à 3 niveaux, démon multi-clients, installeur multi-distro | v1.3.1, AGPL-3.0, [![Tests](https://github.com/amineutron/lyra/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/lyra/actions/workflows/tests.yml) |
+| [fedora-agents](https://github.com/amineutron/fedora-agents) | Serveur MCP pour KVM/libvirt et sauvegardes Borg/Timeshift (TypeScript), table de permissions par outil | v1.3.0, MIT, composant de Lyra [![CI](https://github.com/amineutron/fedora-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/amineutron/fedora-agents/actions/workflows/ci.yml) |
+| [mcp-tracking](https://github.com/amineutron/mcp-tracking) | Serveur MCP, API HTTP protégée par un jeton local et tableau de bord terminal pour suivre les tâches longues | v0.3.0, MIT [![CI](https://github.com/amineutron/mcp-tracking/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/mcp-tracking/actions/workflows/tests.yml) |
+| [mcp-agent-template](https://github.com/amineutron/mcp-agent-template) | Modèle d'agent MCP pour l'entreprise : rôles, liste blanche d'outils (`policy.yaml`), confirmation humaine, journal d'audit JSONL en 0600 avec identifiant de corrélation | v0.1.0, double licence AGPL-3.0 et licence commerciale [![CI](https://github.com/amineutron/mcp-agent-template/actions/workflows/ci.yml/badge.svg)](https://github.com/amineutron/mcp-agent-template/actions/workflows/ci.yml) |
+
+Le modèle d'agent assemble ce que les autres dépôts prouvent séparément : droits minimaux, confirmation humaine avant l'action sensible, traçabilité. Il se clone comme point de départ d'un agent adapté à vos outils.
+
+## Homelab et démonstrateurs
+
+| Dépôt | Rôle | État honnête |
+|---|---|---|
 | [neutroncore](https://github.com/amineutron/neutroncore) | Hub PWA du homelab (services, tâches, médias, domotique), piloté par Lyra | v0.1.0, MIT, son backend n'est pas encore publié [![CI](https://github.com/amineutron/neutroncore/actions/workflows/ci.yml/badge.svg)](https://github.com/amineutron/neutroncore/actions/workflows/ci.yml) |
 | [hue-mcp](https://github.com/amineutron/hue-mcp) | Fork de [ThomasRohde/hue-mcp](https://github.com/ThomasRohde/hue-mcp) avec scènes par nom et synchronisation au rythme | MIT, fork crédité [![CI](https://github.com/amineutron/hue-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/hue-mcp/actions/workflows/tests.yml) |
-| [pylips-mcp](https://github.com/amineutron/pylips-mcp) | Serveur MCP pour TV Philips (JointSpace, ADB), certificat de la TV épinglé | v0.1.0, MIT [![CI](https://github.com/amineutron/pylips-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/pylips-mcp/actions/workflows/tests.yml) |
-| [denon-mcp](https://github.com/amineutron/denon-mcp) | Serveur MCP pour ampli home cinéma Denon (protocole telnet local) | v0.1.0, MIT [![CI](https://github.com/amineutron/denon-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/denon-mcp/actions/workflows/tests.yml) |
-| [catt-mcp](https://github.com/amineutron/catt-mcp) | Serveur MCP pour diffuser sur Chromecast et DLNA | v0.1.0, MIT [![CI](https://github.com/amineutron/catt-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/catt-mcp/actions/workflows/tests.yml) |
+| [pylips-mcp](https://github.com/amineutron/pylips-mcp) | Serveur MCP pour TV Philips (JointSpace, ADB), certificat de la TV épinglé | v0.4.0, MIT [![CI](https://github.com/amineutron/pylips-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/pylips-mcp/actions/workflows/tests.yml) |
+| [denon-mcp](https://github.com/amineutron/denon-mcp) | Serveur MCP pour ampli home cinéma Denon (protocole telnet local) | v0.3.2, MIT [![CI](https://github.com/amineutron/denon-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/denon-mcp/actions/workflows/tests.yml) |
+| [catt-mcp](https://github.com/amineutron/catt-mcp) | Serveur MCP pour diffuser sur Chromecast et DLNA | v0.3.0, MIT [![CI](https://github.com/amineutron/catt-mcp/actions/workflows/tests.yml/badge.svg)](https://github.com/amineutron/catt-mcp/actions/workflows/tests.yml) |
 
 Les serveurs domotiques sont taillés pour mon homelab ; ils servent de banc d'essai à l'architecture, pas de produit.
 
